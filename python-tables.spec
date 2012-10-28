@@ -6,8 +6,8 @@
 
 Summary:	Hierarchical datasets in Python
 Name:		python-%{module}
-Version:	2.3.1
-Release:	5%{?dist}
+Version:	2.4.0
+Release:	1%{?dist}
 Source0:	http://sourceforge.net/projects/pytables/files/pytables/%{version}/%{module}-%{version}.tar.gz
 
 License:	BSD
@@ -16,7 +16,7 @@ URL:		http://www.pytables.org
 Requires:	numpy >= 1.4.1
 Requires:	python-numexpr >= 1.4.1
 
-BuildRequires:	hdf5-devel >= 1.6.10 bzip2-devel lzo-devel
+BuildRequires:	hdf5-devel >= 1.8 bzip2-devel lzo-devel
 BuildRequires:	Cython >= 0.13 numpy >= 1.4.1 python-numexpr >= 1.4.1
 BuildRequires:	python2-devel
 
@@ -36,9 +36,6 @@ PyTables.
 
 %prep 
 %setup -q -n %{module}-%{version}
-
-rm LICENSES/LRUCACHE.txt
-rm tables/misc/lrucache.py
 
 %build
 python setup.py build
@@ -69,6 +66,9 @@ python setup.py install -O1 --skip-build --root %{buildroot}
 %doc examples/
 
 %changelog
+* Sun Oct 28 2012 Thibault North <tnorth@fedoraproject.org> - 2.4.0-1
+- Update to 2.4.0
+
 * Sat Jul 21 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.3.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
