@@ -7,7 +7,7 @@
 Summary:	Hierarchical datasets in Python
 Name:		python-%{module}
 Version:	2.4.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 Source0:	http://sourceforge.net/projects/pytables/files/pytables/%{version}/%{module}-%{version}.tar.gz
 
 License:	BSD
@@ -66,6 +66,9 @@ python setup.py install -O1 --skip-build --root %{buildroot}
 %doc examples/
 
 %changelog
+* Thu May 16 2013 Orion Poplawski <orion@cora.nwra.com> - 2.4.0-3
+- Rebuild for hdf5 1.8.11
+
 * Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.4.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
