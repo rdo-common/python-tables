@@ -6,9 +6,10 @@
 
 Summary:	Hierarchical datasets in Python
 Name:		python-%{module}
-Version:	2.4.0
-Release:	4%{?dist}
+Version:	3.0.0
+Release:	1%{?dist}
 Source0:	http://sourceforge.net/projects/pytables/files/pytables/%{version}/%{module}-%{version}.tar.gz
+Source1:	http://sourceforge.net/project/pytables/pytables/%{version}/pytablesmanual-%{version}.pdf
 
 License:	BSD
 Group:		Development/Languages
@@ -36,6 +37,7 @@ PyTables.
 
 %prep 
 %setup -q -n %{module}-%{version}
+cp -a %{SOURCE1} .
 
 %build
 python setup.py build
@@ -55,17 +57,20 @@ python setup.py install -O1 --skip-build --root %{buildroot}
 
 %files
 %doc *.txt LICENSES
-%{_bindir}/nctoh5
 %{_bindir}/ptdump
 %{_bindir}/ptrepack
+%{_bindir}/pt2to3
 %{python_sitearch}/%{module}
 %{python_sitearch}/%{module}-%{version}-py*.egg-info
 
 %files doc
-%doc doc/*.pdf
+%doc pytablesmanual-%{version}.pdf
 %doc examples/
 
 %changelog
+* Tue Aug 21 2013 Thibault North <tnorth@fedoraproject.org> - 3.0.0-1
+- Update to 3.0.0
+
 * Sun Aug 04 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.4.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
