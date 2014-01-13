@@ -10,7 +10,7 @@
 Summary:        Hierarchical datasets in Python
 Name:           python-%{module}
 Version:        3.0.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Source0:        http://sourceforge.net/projects/pytables/files/pytables/%{version}/%{module}-%{version}.tar.gz
 Source1:        http://sourceforge.net/project/pytables/pytables/%{version}/pytablesmanual-%{version}.pdf
 
@@ -25,9 +25,6 @@ BuildRequires:  Cython >= 0.13 numpy python-numexpr
 BuildRequires:  python2-devel
 
 %if 0%{?with_python3}
-Requires:       python3-numpy
-Requires:       python3-numexpr
-
 BuildRequires:  python3-Cython >= 0.13 python3-numpy python3-numexpr >= 2.2
 BuildRequires:  python3-devel
 %endif # with_python3
@@ -39,6 +36,9 @@ to efficiently and easily cope with extremely large amounts of data.
 %if 0%{?with_python3}
 %package -n python3-%{module}
 Summary:        Hierarchical datasets in Python
+
+Requires:       python3-numpy
+Requires:       python3-numexpr
 
 %description -n python3-%{module}
 PyTables is a package for managing hierarchical datasets and designed
@@ -118,6 +118,9 @@ popd
 %doc examples/
 
 %changelog
+* Fri Jan 10 2014 Zbigniew Jędrzejewski-Szmek - 3.0.0-3
+- Move python3 requires to the proper package (#1051691)
+
 * Thu Sep 05 2013 Zbigniew Jędrzejewski-Szmek - 3.0.0-2
 - Add python3-tables package
 
