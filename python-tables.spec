@@ -10,7 +10,7 @@
 Summary:        Hierarchical datasets in Python
 Name:           python-%{module}
 Version:        3.0.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Source0:        http://sourceforge.net/projects/pytables/files/pytables/%{version}/%{module}-%{version}.tar.gz
 Source1:        http://sourceforge.net/project/pytables/pytables/%{version}/pytablesmanual-%{version}.pdf
 
@@ -118,6 +118,9 @@ popd
 %doc examples/
 
 %changelog
+* Mon Mar 24 2014 Zbigniew Jędrzejewski-Szmek - 3.0.0-4
+- Rebuild for latest blosc
+
 * Fri Jan 10 2014 Zbigniew Jędrzejewski-Szmek - 3.0.0-3
 - Move python3 requires to the proper package (#1051691)
 
