@@ -10,7 +10,7 @@
 Summary:        Hierarchical datasets in Python
 Name:           python-%{module}
 Version:        3.0.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Source0:        http://sourceforge.net/projects/pytables/files/pytables/%{version}/%{module}-%{version}.tar.gz
 Source1:        http://sourceforge.net/project/pytables/pytables/%{version}/pytablesmanual-%{version}.pdf
 
@@ -118,6 +118,9 @@ popd
 %doc examples/
 
 %changelog
+* Wed May 28 2014 Kalev Lember <kalevlember@gmail.com> - 3.0.0-5
+- Rebuilt for https://fedoraproject.org/wiki/Changes/Python_3.4
+
 * Mon Mar 24 2014 Zbigniew Jędrzejewski-Szmek - 3.0.0-4
 - Rebuild for latest blosc
 
