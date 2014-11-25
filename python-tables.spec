@@ -10,7 +10,7 @@
 Summary:        Hierarchical datasets in Python
 Name:           python-%{module}
 Version:        3.0.0
-Release:        7%{?dist}
+Release:        8%{?dist}
 Source0:        http://sourceforge.net/projects/pytables/files/pytables/%{version}/%{module}-%{version}.tar.gz
 Source1:        http://sourceforge.net/project/pytables/pytables/%{version}/pytablesmanual-%{version}.pdf
 
@@ -79,11 +79,14 @@ export PYTHONPATH=`pwd`/build/$libdir
 python bench/check_all.py
 
 %if 0%{?with_python3}
+# OOM during tests on s390
+%ifnarch s390
 pushd %{py3dir}
 libdir=`ls build/|grep lib`
 export PYTHONPATH=`pwd`/build/$libdir
 python3 bench/check_all.py
 popd
+%endif
 %endif # with_python3
 
 %install
@@ -118,6 +121,9 @@ popd
 %doc examples/
 
 %changelog
+* Tue Nov 25 2014 Dan Horák <dan[at]danny.cz> - 3.0.0-8
+- workaround OOM during Python3 tests on s390
+
 * Sun Aug 17 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.0.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
 
