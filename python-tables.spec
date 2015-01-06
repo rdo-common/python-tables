@@ -9,10 +9,10 @@
 
 Summary:        Hierarchical datasets in Python
 Name:           python-%{module}
-Version:        3.0.0
-Release:        8%{?dist}
-Source0:        http://sourceforge.net/projects/pytables/files/pytables/%{version}/%{module}-%{version}.tar.gz
-Source1:        http://sourceforge.net/project/pytables/pytables/%{version}/pytablesmanual-%{version}.pdf
+Version:        3.1.1
+Release:        1%{?dist}
+Source0:        https://sourceforge.net/projects/pytables/files/pytables/%{version}/%{module}-%{version}.tar.gz
+Source1:        https://sourceforge.net/projects/pytables/files/pytables/%{version}/pytablesmanual-%{version}.pdf
 
 License:        BSD
 Group:          Development/Languages
@@ -121,6 +121,9 @@ popd
 %doc examples/
 
 %changelog
+* Tue Jan 06 2015 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 3.1.1-1
+- Update to 3.1.1 (#1080889)
+
 * Tue Nov 25 2014 Dan Horák <dan[at]danny.cz> - 3.0.0-8
 - workaround OOM during Python3 tests on s390
 
