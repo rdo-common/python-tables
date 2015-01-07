@@ -7,12 +7,16 @@
 
 %global module  tables
 
+%global commit 16191801a53eddae8ca9380a28988c3b5b263c5e
+%global shortcommit %(c=%{commit}; echo ${c:0:7})
+
 Summary:        Hierarchical datasets in Python
 Name:           python-%{module}
-Version:        3.1.1
-Release:        2%{?dist}
-Source0:        https://sourceforge.net/projects/pytables/files/pytables/%{version}/%{module}-%{version}.tar.gz
-Source1:        https://sourceforge.net/projects/pytables/files/pytables/%{version}/pytablesmanual-%{version}.pdf
+Version:        3.1.2
+Release:        3%{?dist}.git%{shortcommit}
+Source0:        https://github.com/PyTables/PyTables/archive/%{commit}/PyTables-%{commit}.tar.gz
+
+Source1:        https://sourceforge.net/projects/pytables/files/pytables/%{version}/pytablesmanual-3.1.1.pdf
 
 License:        BSD
 Group:          Development/Languages
@@ -22,6 +26,7 @@ Requires:       python-numexpr
 
 BuildRequires:  hdf5-devel >= 1.8 bzip2-devel lzo-devel
 BuildRequires:  Cython >= 0.13 numpy python-numexpr
+BuildRequires:  blosc-devel >= 1.5.2
 BuildRequires:  python2-devel
 
 %if 0%{?with_python3}
@@ -57,13 +62,13 @@ The %{name}-doc package contains the documentation related to
 PyTables.
 
 %prep
-%setup -q -n %{module}-%{version}
+%setup -q -n PyTables-%{commit}
 echo "import tables; tables.test()" > bench/check_all.py
 %if 0%{?with_python3}
 rm -rf %{py3dir}
 cp -a . %{py3dir}
 %endif # with_python3
-cp -a %{SOURCE1} .
+cp -a %{SOURCE1} pytablesmanual.pdf
 
 %build
 python setup.py build
@@ -106,21 +111,25 @@ popd
 %{_bindir}/ptdump
 %{_bindir}/ptrepack
 %{_bindir}/pt2to3
+%{_bindir}/pttree
 %{python_sitearch}/%{module}
-%{python_sitearch}/%{module}-%{version}-py*.egg-info
+%{python_sitearch}/%{module}-%{version}*.egg-info
 
 %if 0%{?with_python3}
 %files -n python3-%{module}
 %doc *.txt LICENSES
 %{python3_sitearch}/%{module}
-%{python3_sitearch}/%{module}-%{version}-py*.egg-info
+%{python3_sitearch}/%{module}-%{version}*.egg-info
 %endif # with_python3
 
 %files doc
-%doc pytablesmanual-%{version}.pdf
+%doc pytablesmanual.pdf
 %doc examples/
 
 %changelog
+* Thu Jan  8 2015 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 3.1.2-3.git1619180
+- Update to latest snapshot and use external blosc
+
 * Wed Jan 07 2015 Orion Poplawski <orion@cora.nwra.com> - 3.1.1-2
 - Rebuild for hdf5 1.8.14
 
