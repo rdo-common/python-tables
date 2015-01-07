@@ -10,7 +10,7 @@
 Summary:        Hierarchical datasets in Python
 Name:           python-%{module}
 Version:        3.1.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Source0:        https://sourceforge.net/projects/pytables/files/pytables/%{version}/%{module}-%{version}.tar.gz
 Source1:        https://sourceforge.net/projects/pytables/files/pytables/%{version}/pytablesmanual-%{version}.pdf
 
@@ -121,6 +121,9 @@ popd
 %doc examples/
 
 %changelog
+* Wed Jan 07 2015 Orion Poplawski <orion@cora.nwra.com> - 3.1.1-2
+- Rebuild for hdf5 1.8.14
+
 * Tue Jan 06 2015 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 3.1.1-1
 - Update to 3.1.1 (#1080889)
 
