@@ -74,7 +74,7 @@ popd
 
 %check
 libdir=`ls build/|grep lib`
-export PYTHONPATH=`pwd`/build/$libdir
+export PYTHONPATH=`pwd`/build/$libdir LANG=en_US.UTF-8
 python bench/check_all.py
 
 # OOM during tests on s390
