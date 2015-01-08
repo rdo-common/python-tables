@@ -61,7 +61,7 @@ PyTables.
 
 %prep
 %setup -q -n PyTables-%{commit}
-echo "import tables; tables.test()" > bench/check_all.py
+echo "import sys, tables; sys.exit(tables.test())" > bench/check_all.py
 rm -rf %{py3dir}
 cp -a . %{py3dir}
 cp -a %{SOURCE1} pytablesmanual.pdf
