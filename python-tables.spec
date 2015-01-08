@@ -1,5 +1,3 @@
-%global with_python3 1
-
 %{?filter_setup:
 %filter_provides_in %{python_sitearch}/.*\.so$
 %filter_provides_in %{python3_sitearch}/.*\.so$
@@ -31,17 +29,15 @@ BuildRequires:  hdf5-devel >= 1.8 bzip2-devel lzo-devel
 BuildRequires:  Cython >= 0.13 numpy python-numexpr
 BuildRequires:  blosc-devel >= 1.5.2
 BuildRequires:  python2-devel
-
-%if 0%{?with_python3}
 BuildRequires:  python3-Cython >= 0.13 python3-numpy python3-numexpr >= 2.2
 BuildRequires:  python3-devel
-%endif # with_python3
 
 %description
 PyTables is a package for managing hierarchical datasets and designed
 to efficiently and easily cope with extremely large amounts of data.
 
-%if 0%{?with_python3}
+This is the version for Python 2.
+
 %package -n python3-%{module}
 Summary:        Hierarchical datasets in Python
 
@@ -53,7 +49,6 @@ PyTables is a package for managing hierarchical datasets and designed
 to efficiently and easily cope with extremely large amounts of data.
 
 This is the version for Python 3.
-%endif # with_python3
 
 %package        doc
 Group:          Development/Languages
@@ -67,26 +62,21 @@ PyTables.
 %prep
 %setup -q -n PyTables-%{commit}
 echo "import tables; tables.test()" > bench/check_all.py
-%if 0%{?with_python3}
 rm -rf %{py3dir}
 cp -a . %{py3dir}
-%endif # with_python3
 cp -a %{SOURCE1} pytablesmanual.pdf
 
 %build
 python setup.py build
-%if 0%{?with_python3}
 pushd %{py3dir}
 python3 setup.py build
 popd
-%endif # with_python3
 
 %check
 libdir=`ls build/|grep lib`
 export PYTHONPATH=`pwd`/build/$libdir
 python bench/check_all.py
 
-%if 0%{?with_python3}
 # OOM during tests on s390
 %ifnarch s390
 pushd %{py3dir}
@@ -95,35 +85,30 @@ export PYTHONPATH=`pwd`/build/$libdir
 python3 bench/check_all.py
 popd
 %endif
-%endif # with_python3
 
 %install
 chmod -x examples/check_examples.sh
 for i in utils/*; do sed -i 's|bin/env |bin/|' $i; done
 
 python setup.py install -O1 --skip-build --root %{buildroot}
-%if 0%{?with_python3}
 pushd %{py3dir}
 python3 setup.py install -O1 --skip-build --root=%{buildroot}
 popd
-%endif # with_python3
 
 
 %files
+%license LICENSE.txt LICENSES
+%{python_sitearch}/%{module}
+%{python_sitearch}/%{module}-%{version}*.egg-info
+
+%files -n python3-%{module}
 %license LICENSE.txt LICENSES
 %{_bindir}/ptdump
 %{_bindir}/ptrepack
 %{_bindir}/pt2to3
 %{_bindir}/pttree
-%{python_sitearch}/%{module}
-%{python_sitearch}/%{module}-%{version}*.egg-info
-
-%if 0%{?with_python3}
-%files -n python3-%{module}
-%license LICENSE.txt LICENSES
 %{python3_sitearch}/%{module}
 %{python3_sitearch}/%{module}-%{version}*.egg-info
-%endif # with_python3
 
 %files doc
 %license LICENSE.txt LICENSES
