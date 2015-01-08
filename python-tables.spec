@@ -14,7 +14,7 @@
 Summary:        Hierarchical datasets in Python
 Name:           python-%{module}
 Version:        3.1.2
-Release:        3%{?dist}.git%{shortcommit}
+Release:        4%{?dist}.git%{shortcommit}
 Source0:        https://github.com/PyTables/PyTables/archive/%{commit}/PyTables-%{commit}.tar.gz
 
 Source1:        https://sourceforge.net/projects/pytables/files/pytables/%{version}/pytablesmanual-3.1.1.pdf
@@ -119,6 +119,9 @@ popd
 %doc examples/
 
 %changelog
+* Thu Jan  8 2015 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 3.1.2-4.git1619180
+- Use blosc on all architectures
+
 * Thu Jan  8 2015 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 3.1.2-3.git1619180
 - Update to latest snapshot and use external blosc
 
