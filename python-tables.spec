@@ -10,6 +10,9 @@
 %global commit 16191801a53eddae8ca9380a28988c3b5b263c5e
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
+# Use the same directory of the main package for subpackage licence and docs
+%global _docdir_fmt %{name}
+
 Summary:        Hierarchical datasets in Python
 Name:           python-%{module}
 Version:        3.1.2
@@ -107,7 +110,7 @@ popd
 
 
 %files
-%doc *.txt LICENSES
+%license LICENSE.txt LICENSES
 %{_bindir}/ptdump
 %{_bindir}/ptrepack
 %{_bindir}/pt2to3
@@ -117,13 +120,15 @@ popd
 
 %if 0%{?with_python3}
 %files -n python3-%{module}
-%doc *.txt LICENSES
+%license LICENSE.txt LICENSES
 %{python3_sitearch}/%{module}
 %{python3_sitearch}/%{module}-%{version}*.egg-info
 %endif # with_python3
 
 %files doc
+%license LICENSE.txt LICENSES
 %doc pytablesmanual.pdf
+%doc [A-KM-Za-z]*.txt
 %doc examples/
 
 %changelog
