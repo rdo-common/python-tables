@@ -18,6 +18,7 @@ Release:        3%{?dist}.git%{shortcommit}
 Source0:        https://github.com/PyTables/PyTables/archive/%{commit}/PyTables-%{commit}.tar.gz
 
 Source1:        https://sourceforge.net/projects/pytables/files/pytables/%{version}/pytablesmanual-3.1.1.pdf
+Patch0:         always-use-blosc.diff
 
 License:        BSD
 Group:          Development/Languages
@@ -61,6 +62,7 @@ PyTables.
 
 %prep
 %setup -q -n PyTables-%{commit}
+%patch0 -p1
 echo "import sys, tables; sys.exit(tables.test())" > bench/check_all.py
 rm -rf %{py3dir}
 cp -a . %{py3dir}
