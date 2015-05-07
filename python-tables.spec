@@ -5,19 +5,20 @@
 
 %global module  tables
 
-%global commit 16191801a53eddae8ca9380a28988c3b5b263c5e
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
+#global commit 16191801a53eddae8ca9380a28988c3b5b263c5e
+#global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 # Use the same directory of the main package for subpackage licence and docs
 %global _docdir_fmt %{name}
 
 Summary:        Hierarchical datasets in Python
 Name:           python-%{module}
-Version:        3.1.2
-Release:        4%{?dist}.git%{shortcommit}
-Source0:        https://github.com/PyTables/PyTables/archive/%{commit}/PyTables-%{commit}.tar.gz
+Version:        3.2.0
+Release:        1%{?dist}%{?gitcommit:.git%{shortcommit}}
+#Source0:        https://github.com/PyTables/PyTables/archive/%{commit}/PyTables-%{commit}.tar.gz
+Source0:        https://github.com/PyTables/PyTables/archive/v.%{version}.tar.gz
 
-Source1:        https://sourceforge.net/projects/pytables/files/pytables/%{version}/pytablesmanual-3.1.1.pdf
+Source1:        https://sourceforge.net/projects/pytables/files/pytables/%{version}/pytablesmanual-%{version}.pdf
 Patch0:         always-use-blosc.diff
 
 License:        BSD
@@ -61,8 +62,7 @@ The %{name}-doc package contains the documentation related to
 PyTables.
 
 %prep
-%setup -q -n PyTables-%{commit}
-%patch0 -p1
+%autosetup -n PyTables-v.%{version} -p1
 echo "import sys, tables; sys.exit(tables.test())" > bench/check_all.py
 rm -rf %{py3dir}
 cp -a . %{py3dir}
@@ -119,6 +119,9 @@ popd
 %doc examples/
 
 %changelog
+* Thu May  7 2015 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 3.2.0-1
+- Update to 3.2.0
+
 * Thu Jan  8 2015 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 3.1.2-4.git1619180
 - Use blosc on all architectures
 
