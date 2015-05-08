@@ -63,7 +63,7 @@ The %{name}-doc package contains the documentation for %{name}.
 
 %prep
 %autosetup -n PyTables-v.%{version} -p1
-echo "import sys, tables; sys.exit(tables.test())" > bench/check_all.py
+echo "import sys, tables; sys.exit(tables.test(verbose=1))" > bench/check_all.py
 # Make sure we are not using anything from the bundled blosc by mistake
 find c-blosc -mindepth 1 -maxdepth 1 -name hdf5 -prune -o -exec rm -r {} +
 
