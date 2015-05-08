@@ -20,6 +20,7 @@ Source0:        https://github.com/PyTables/PyTables/archive/v.%{version}.tar.gz
 
 Source1:        https://sourceforge.net/projects/pytables/files/pytables/%{version}/pytablesmanual-%{version}.pdf
 Patch0:         always-use-blosc.diff
+Patch1:         hdf5-blosc-1.4.4-1.6.1.diff
 
 License:        BSD
 Group:          Development/Languages
@@ -58,14 +59,17 @@ Summary:        Documentation for PyTables
 BuildArch:      noarch
 
 %description doc
-The %{name}-doc package contains the documentation related to
-PyTables.
+The %{name}-doc package contains the documentation for %{name}.
 
 %prep
 %autosetup -n PyTables-v.%{version} -p1
 echo "import sys, tables; sys.exit(tables.test())" > bench/check_all.py
+# Make sure we are not using anything from the bundled blosc by mistake
+find c-blosc -mindepth 1 -maxdepth 1 -name hdf5 -prune -o -exec rm -r {} +
+
 rm -rf %{py3dir}
 cp -a . %{py3dir}
+
 cp -a %{SOURCE1} pytablesmanual.pdf
 
 %build
