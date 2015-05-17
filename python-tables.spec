@@ -14,7 +14,7 @@
 Summary:        Hierarchical datasets in Python
 Name:           python-%{module}
 Version:        3.2.0
-Release:        1%{?dist}%{?gitcommit:.git%{shortcommit}}
+Release:        2%{?dist}%{?gitcommit:.git%{shortcommit}}
 #Source0:        https://github.com/PyTables/PyTables/archive/%{commit}/PyTables-%{commit}.tar.gz
 Source0:        https://github.com/PyTables/PyTables/archive/v.%{version}.tar.gz
 
@@ -123,6 +123,9 @@ popd
 %doc examples/
 
 %changelog
+* Sun May 17 2015 Orion Poplawski <orion@cora.nwra.com> - 3.2.0-2
+- Rebuild for hdf5 1.8.15
+
 * Thu May  7 2015 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 3.2.0-1
 - Update to 3.2.0
 
