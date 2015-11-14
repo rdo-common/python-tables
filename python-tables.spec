@@ -13,12 +13,12 @@
 
 Summary:        Hierarchical datasets in Python
 Name:           python-%{module}
-Version:        3.2.0
-Release:        4%{?dist}%{?gitcommit:.git%{shortcommit}}
+Version:        3.2.2
+Release:        1%{?dist}%{?gitcommit:.git%{shortcommit}}
 #Source0:        https://github.com/PyTables/PyTables/archive/%{commit}/PyTables-%{commit}.tar.gz
-Source0:        https://github.com/PyTables/PyTables/archive/v.%{version}.tar.gz
+Source0:        https://github.com/PyTables/PyTables/archive/v.%{version}.tar.gz#/python-tables-%{version}.tar.gz
 
-Source1:        https://sourceforge.net/projects/pytables/files/pytables/%{version}/pytablesmanual-%{version}.pdf
+Source1:        https://sourceforge.net/projects/pytables/files/pytables/3.2.0/pytablesmanual-3.2.0.pdf
 Patch0:         always-use-blosc.diff
 Patch1:         hdf5-blosc-1.4.4-1.6.1.diff
 
@@ -123,6 +123,9 @@ popd
 %doc examples/
 
 %changelog
+* Sat Nov 14 2015 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 3.2.2-1
+- Update to latest version
+
 * Tue Nov 10 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.2.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Changes/python3.5
 
