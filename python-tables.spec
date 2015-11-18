@@ -14,7 +14,7 @@
 Summary:        Hierarchical datasets in Python
 Name:           python-%{module}
 Version:        3.2.2
-Release:        1%{?dist}%{?gitcommit:.git%{shortcommit}}
+Release:        2%{?dist}%{?gitcommit:.git%{shortcommit}}
 #Source0:        https://github.com/PyTables/PyTables/archive/%{commit}/PyTables-%{commit}.tar.gz
 Source0:        https://github.com/PyTables/PyTables/archive/v.%{version}.tar.gz#/python-tables-%{version}.tar.gz
 
@@ -26,13 +26,17 @@ License:        BSD
 Group:          Development/Languages
 URL:            http://www.pytables.org
 Requires:       numpy
-Requires:       python-numexpr
+Requires:       python2-numexpr >= 2.4
 
 BuildRequires:  hdf5-devel >= 1.8 bzip2-devel lzo-devel
-BuildRequires:  Cython >= 0.13 numpy python-numexpr
+BuildRequires:  Cython >= 0.13
+BuildRequires:  numpy
+BuildRequires:  python-numexpr >= 2.4
 BuildRequires:  blosc-devel >= 1.5.2
 BuildRequires:  python2-devel
-BuildRequires:  python3-Cython >= 0.13 python3-numpy python3-numexpr >= 2.2
+BuildRequires:  python3-Cython >= 0.13
+BuildRequires:  python3-numpy
+BuildRequires:  python3-numexpr >= 2.4
 BuildRequires:  python3-devel
 
 %description
@@ -45,7 +49,7 @@ This is the version for Python 2.
 Summary:        Hierarchical datasets in Python
 
 Requires:       python3-numpy
-Requires:       python3-numexpr
+Requires:       python3-numexpr >= 2.4
 
 %description -n python3-%{module}
 PyTables is a package for managing hierarchical datasets and designed
@@ -123,6 +127,9 @@ popd
 %doc examples/
 
 %changelog
+* Wed Nov 18 2015 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 3.2.2-2
+- Make sure numexpr is new enough
+
 * Sat Nov 14 2015 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 3.2.2-1
 - Update to latest version
 
