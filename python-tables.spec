@@ -14,7 +14,7 @@
 Summary:        Hierarchical datasets in Python
 Name:           python-%{module}
 Version:        3.2.2
-Release:        2%{?dist}%{?gitcommit:.git%{shortcommit}}
+Release:        3%{?dist}%{?gitcommit:.git%{shortcommit}}
 #Source0:        https://github.com/PyTables/PyTables/archive/%{commit}/PyTables-%{commit}.tar.gz
 Source0:        https://github.com/PyTables/PyTables/archive/v.%{version}.tar.gz#/python-tables-%{version}.tar.gz
 
@@ -127,6 +127,9 @@ popd
 %doc examples/
 
 %changelog
+* Thu Jan 21 2016 Orion Poplawski <orion@cora.nwra.com> - 3.2.2-3
+- Rebuild for hdf5 1.8.16
+
 * Wed Nov 18 2015 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 3.2.2-2
 - Make sure numexpr is new enough
 
