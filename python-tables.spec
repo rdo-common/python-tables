@@ -14,7 +14,7 @@
 Summary:        Hierarchical datasets in Python
 Name:           python-%{module}
 Version:        3.2.2
-Release:        3%{?dist}%{?gitcommit:.git%{shortcommit}}
+Release:        4%{?dist}%{?gitcommit:.git%{shortcommit}}
 #Source0:        https://github.com/PyTables/PyTables/archive/%{commit}/PyTables-%{commit}.tar.gz
 Source0:        https://github.com/PyTables/PyTables/archive/v.%{version}.tar.gz#/python-tables-%{version}.tar.gz
 
@@ -127,6 +127,9 @@ popd
 %doc examples/
 
 %changelog
+* Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+
 * Thu Jan 21 2016 Orion Poplawski <orion@cora.nwra.com> - 3.2.2-3
 - Rebuild for hdf5 1.8.16
 
