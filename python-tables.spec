@@ -1,7 +1,5 @@
-%{?filter_setup:
-%filter_provides_in %{python_sitearch}/.*\.so$
-%filter_provides_in %{python3_sitearch}/.*\.so$
-%filter_setup}
+# we don't want to provide private python extension libs in either the python2 or python3 dirs
+%global __provides_exclude_from ^(%{python2_sitearch}|%{python3_sitearch})/.*\\.so$
 
 %global module  tables
 
@@ -14,7 +12,7 @@
 Summary:        Hierarchical datasets in Python
 Name:           python-%{module}
 Version:        3.2.2
-Release:        4%{?dist}%{?gitcommit:.git%{shortcommit}}
+Release:        5%{?dist}%{?gitcommit:.git%{shortcommit}}
 #Source0:        https://github.com/PyTables/PyTables/archive/%{commit}/PyTables-%{commit}.tar.gz
 Source0:        https://github.com/PyTables/PyTables/archive/v.%{version}.tar.gz#/python-tables-%{version}.tar.gz
 
@@ -25,8 +23,6 @@ Patch1:         hdf5-blosc-1.4.4-1.6.1.diff
 License:        BSD
 Group:          Development/Languages
 URL:            http://www.pytables.org
-Requires:       numpy
-Requires:       python2-numexpr >= 2.4
 
 BuildRequires:  hdf5-devel >= 1.8 bzip2-devel lzo-devel
 BuildRequires:  Cython >= 0.13
@@ -34,24 +30,36 @@ BuildRequires:  numpy
 BuildRequires:  python-numexpr >= 2.4
 BuildRequires:  blosc-devel >= 1.5.2
 BuildRequires:  python2-devel
-BuildRequires:  python3-Cython >= 0.13
-BuildRequires:  python3-numpy
-BuildRequires:  python3-numexpr >= 2.4
-BuildRequires:  python3-devel
+BuildRequires:  python%{python3_pkgversion}-Cython >= 0.13
+BuildRequires:  python%{python3_pkgversion}-numpy
+BuildRequires:  python%{python3_pkgversion}-numexpr >= 2.4
+BuildRequires:  python%{python3_pkgversion}-devel
 
 %description
 PyTables is a package for managing hierarchical datasets and designed
 to efficiently and easily cope with extremely large amounts of data.
 
-This is the version for Python 2.
-
-%package -n python3-%{module}
+%package -n python2-%{module}
 Summary:        Hierarchical datasets in Python
 
-Requires:       python3-numpy
-Requires:       python3-numexpr >= 2.4
+Requires:       numpy
+Requires:       python2-numexpr >= 2.4
+%{?python_provide:%python_provide python2-%{module}}
 
-%description -n python3-%{module}
+%description -n python2-%{module}
+PyTables is a package for managing hierarchical datasets and designed
+to efficiently and easily cope with extremely large amounts of data.
+
+This is the version for Python 2.
+
+%package -n python%{python3_pkgversion}-%{module}
+Summary:        Hierarchical datasets in Python
+
+Requires:       python%{python3_pkgversion}-numpy
+Requires:       python%{python3_pkgversion}-numexpr >= 2.4
+%{?python_provide:%python_provide python%{python3_pkgversion}-%{module}}
+
+%description -n python%{python3_pkgversion}-%{module}
 PyTables is a package for managing hierarchical datasets and designed
 to efficiently and easily cope with extremely large amounts of data.
 
@@ -71,47 +79,34 @@ echo "import sys, tables; sys.exit(tables.test(verbose=1))" > bench/check_all.py
 # Make sure we are not using anything from the bundled blosc by mistake
 find c-blosc -mindepth 1 -maxdepth 1 -name hdf5 -prune -o -exec rm -r {} +
 
-rm -rf %{py3dir}
-cp -a . %{py3dir}
-
 cp -a %{SOURCE1} pytablesmanual.pdf
 
 %build
-python setup.py build
-pushd %{py3dir}
-python3 setup.py build
-popd
-
-%check
-libdir=`ls build/|grep lib`
-export PYTHONPATH=`pwd`/build/$libdir LANG=en_US.UTF-8
-python bench/check_all.py
-
-# OOM during tests on s390
-%ifnarch s390
-pushd %{py3dir}
-libdir=`ls build/|grep lib`
-export PYTHONPATH=`pwd`/build/$libdir
-python3 bench/check_all.py
-popd
-%endif
+%py2_build
+%py3_build
 
 %install
 chmod -x examples/check_examples.sh
 for i in utils/*; do sed -i 's|bin/env |bin/|' $i; done
 
-python setup.py install -O1 --skip-build --root %{buildroot}
-pushd %{py3dir}
-python3 setup.py install -O1 --skip-build --root=%{buildroot}
-popd
+%py2_install
+%py3_install
 
+%check
+export LANG=en_US.UTF-8
+PYTHONPATH=%{buildroot}%{python2_sitearch} %{__python2} bench/check_all.py
 
-%files
+# OOM during tests on s390
+%ifnarch s390
+PYTHONPATH=%{buildroot}%{python3_sitearch} %{__python3} bench/check_all.py
+%endif
+
+%files -n python2-%{module}
 %license LICENSE.txt LICENSES
-%{python_sitearch}/%{module}
-%{python_sitearch}/%{module}-%{version}*.egg-info
+%{python2_sitearch}/%{module}
+%{python2_sitearch}/%{module}-%{version}*.egg-info
 
-%files -n python3-%{module}
+%files -n python%{python3_pkgversion}-%{module}
 %license LICENSE.txt LICENSES
 %{_bindir}/ptdump
 %{_bindir}/ptrepack
@@ -127,6 +122,12 @@ popd
 %doc examples/
 
 %changelog
+* Tue May 17 2016 Orion Poplawski <orion@cora.nwra.com> - 3.2.2-5
+- Update provides filter
+- Ship python2 package
+- Use %%python3_pkgversion for EPEL7 compatibility
+- Use current python macros
+
 * Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 3.2.2-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
