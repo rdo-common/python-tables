@@ -12,7 +12,7 @@
 Summary:        Hierarchical datasets in Python
 Name:           python-%{module}
 Version:        3.2.2
-Release:        5%{?dist}%{?gitcommit:.git%{shortcommit}}
+Release:        6%{?dist}%{?gitcommit:.git%{shortcommit}}
 #Source0:        https://github.com/PyTables/PyTables/archive/%{commit}/PyTables-%{commit}.tar.gz
 Source0:        https://github.com/PyTables/PyTables/archive/v.%{version}.tar.gz#/python-tables-%{version}.tar.gz
 
@@ -122,6 +122,9 @@ PYTHONPATH=%{buildroot}%{python3_sitearch} %{__python3} bench/check_all.py
 %doc examples/
 
 %changelog
+* Tue Jul 19 2016 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.2.2-6
+- https://fedoraproject.org/wiki/Changes/Automatic_Provides_for_Python_RPM_Packages
+
 * Tue May 17 2016 Orion Poplawski <orion@cora.nwra.com> - 3.2.2-5
 - Update provides filter
 - Ship python2 package
