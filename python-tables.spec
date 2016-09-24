@@ -1,27 +1,20 @@
-# we don't want to provide private python extension libs in either the python2 or python3 dirs
-%global __provides_exclude_from ^(%{python2_sitearch}|%{python3_sitearch})/.*\\.so$
-
-%global module  tables
-
 #global commit 16191801a53eddae8ca9380a28988c3b5b263c5e
-#global shortcommit %(c=%{commit}; echo ${c:0:7})
+%{?gitcommit:%global gitcommitshort %(c=%{gitcommit}; echo ${c:0:7})}
 
 # Use the same directory of the main package for subpackage licence and docs
 %global _docdir_fmt %{name}
 
-Summary:        Hierarchical datasets in Python
-Name:           python-%{module}
-Version:        3.2.2
-Release:        6%{?dist}%{?gitcommit:.git%{shortcommit}}
+Summary:        HDF5 support in Python
+Name:           python-tables
+Version:        3.3.0
+Release:        1%{?dist}%{?gitcommit:.git%{shortcommit}}
 #Source0:        https://github.com/PyTables/PyTables/archive/%{commit}/PyTables-%{commit}.tar.gz
-Source0:        https://github.com/PyTables/PyTables/archive/v.%{version}.tar.gz#/python-tables-%{version}.tar.gz
+Source0:        https://github.com/PyTables/PyTables/archive/v%{version}.tar.gz#/python-tables-%{version}.tar.gz
 
-Source1:        https://sourceforge.net/projects/pytables/files/pytables/3.2.0/pytablesmanual-3.2.0.pdf
+Source1:        https://github.com/PyTables/PyTables/releases/download/v%{version}/pytablesmanual-%{version}.pdf
 Patch0:         always-use-blosc.diff
-Patch1:         hdf5-blosc-1.4.4-1.6.1.diff
 
 License:        BSD
-Group:          Development/Languages
 URL:            http://www.pytables.org
 
 BuildRequires:  hdf5-devel >= 1.8 bzip2-devel lzo-devel
@@ -30,36 +23,40 @@ BuildRequires:  numpy
 BuildRequires:  python-numexpr >= 2.4
 BuildRequires:  blosc-devel >= 1.5.2
 BuildRequires:  python2-devel
+BuildRequires:  python2-six
+BuildRequires:  python%{python3_pkgversion}-devel
 BuildRequires:  python%{python3_pkgversion}-Cython >= 0.13
 BuildRequires:  python%{python3_pkgversion}-numpy
 BuildRequires:  python%{python3_pkgversion}-numexpr >= 2.4
-BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  python%{python3_pkgversion}-six
 
 %description
 PyTables is a package for managing hierarchical datasets and designed
 to efficiently and easily cope with extremely large amounts of data.
 
-%package -n python2-%{module}
-Summary:        Hierarchical datasets in Python
+%package -n python2-tables
+Summary:        %{summary}
 
 Requires:       numpy
+Requires:       python2-six
 Requires:       python2-numexpr >= 2.4
-%{?python_provide:%python_provide python2-%{module}}
+%{?python_provide:%python_provide python2-tables}
 
-%description -n python2-%{module}
+%description -n python2-tables
 PyTables is a package for managing hierarchical datasets and designed
 to efficiently and easily cope with extremely large amounts of data.
 
 This is the version for Python 2.
 
-%package -n python%{python3_pkgversion}-%{module}
-Summary:        Hierarchical datasets in Python
+%package -n python%{python3_pkgversion}-tables
+Summary:        %{summary}
 
 Requires:       python%{python3_pkgversion}-numpy
+Requires:       python%{python3_pkgversion}-six
 Requires:       python%{python3_pkgversion}-numexpr >= 2.4
-%{?python_provide:%python_provide python%{python3_pkgversion}-%{module}}
+%{?python_provide:%python_provide python%{python3_pkgversion}-tables}
 
-%description -n python%{python3_pkgversion}-%{module}
+%description -n python%{python3_pkgversion}-tables
 PyTables is a package for managing hierarchical datasets and designed
 to efficiently and easily cope with extremely large amounts of data.
 
@@ -74,12 +71,13 @@ BuildArch:      noarch
 The %{name}-doc package contains the documentation for %{name}.
 
 %prep
-%autosetup -n PyTables-v.%{version} -p1
+%autosetup -n PyTables-%{version} -p1
+cp -a %{SOURCE1} pytablesmanual.pdf
+
 echo "import sys, tables; sys.exit(tables.test(verbose=1))" > bench/check_all.py
+
 # Make sure we are not using anything from the bundled blosc by mistake
 find c-blosc -mindepth 1 -maxdepth 1 -name hdf5 -prune -o -exec rm -r {} +
-
-cp -a %{SOURCE1} pytablesmanual.pdf
 
 %build
 %py2_build
@@ -101,19 +99,19 @@ PYTHONPATH=%{buildroot}%{python2_sitearch} %{__python2} bench/check_all.py
 PYTHONPATH=%{buildroot}%{python3_sitearch} %{__python3} bench/check_all.py
 %endif
 
-%files -n python2-%{module}
+%files -n python2-tables
 %license LICENSE.txt LICENSES
-%{python2_sitearch}/%{module}
-%{python2_sitearch}/%{module}-%{version}*.egg-info
+%{python2_sitearch}/tables
+%{python2_sitearch}/tables-%{version}*.egg-info
 
-%files -n python%{python3_pkgversion}-%{module}
+%files -n python%{python3_pkgversion}-tables
 %license LICENSE.txt LICENSES
 %{_bindir}/ptdump
 %{_bindir}/ptrepack
 %{_bindir}/pt2to3
 %{_bindir}/pttree
-%{python3_sitearch}/%{module}
-%{python3_sitearch}/%{module}-%{version}*.egg-info
+%{python3_sitearch}/tables
+%{python3_sitearch}/tables-%{version}*.egg-info
 
 %files doc
 %license LICENSE.txt LICENSES
@@ -122,6 +120,9 @@ PYTHONPATH=%{buildroot}%{python3_sitearch} %{__python3} bench/check_all.py
 %doc examples/
 
 %changelog
+* Thu Sep 15 2016 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 3.3.0-1
+- Update to latest upstream version (#1352621)
+
 * Tue Jul 19 2016 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.2.2-6
 - https://fedoraproject.org/wiki/Changes/Automatic_Provides_for_Python_RPM_Packages
 

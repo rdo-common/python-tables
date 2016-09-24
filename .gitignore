@@ -1,10 +1,11 @@
+/.build-*-*.fc*.log
 /tables-2.3.1.tar.gz
 /tables-2.4.0.tar.gz
 /pytablesmanual-3.0.0.pdf
 /tables-3.0.0.tar.gz
 /tables-3.1.1.tar.gz
-/pytablesmanual-3.1.1.pdf
 /PyTables-16191801a53eddae8ca9380a28988c3b5b263c5e.tar.gz
 /v.3.2.0.tar.gz
-/pytablesmanual-3.2.0.pdf
-/python-tables-3.2.2.tar.gz
+/pytablesmanual-*.pdf
+/python-tables-*.tar.gz
+/pytablesmanual.pdf
