@@ -13,6 +13,7 @@ Source0:        https://github.com/PyTables/PyTables/archive/v%{version}.tar.gz#
 
 Source1:        https://github.com/PyTables/PyTables/releases/download/v%{version}/pytablesmanual-%{version}.pdf
 Patch0:         always-use-blosc.diff
+Patch1:         0001-setup.py-gracefuly-handle-cpuinfo-failure.patch
 
 License:        BSD
 URL:            http://www.pytables.org
@@ -85,7 +86,7 @@ find c-blosc -mindepth 1 -maxdepth 1 -name hdf5 -prune -o -exec rm -r {} +
 
 %install
 chmod -x examples/check_examples.sh
-for i in utils/*; do sed -i 's|bin/env |bin/|' $i; done
+sed -i 's|bin/env |bin/|' utils/*
 
 %py2_install
 %py3_install
