@@ -7,7 +7,7 @@
 Summary:        HDF5 support in Python
 Name:           python-tables
 Version:        3.3.0
-Release:        1%{?dist}%{?gitcommit:.git%{shortcommit}}
+Release:        2%{?dist}%{?gitcommit:.git%{shortcommit}}
 #Source0:        https://github.com/PyTables/PyTables/archive/%{commit}/PyTables-%{commit}.tar.gz
 Source0:        https://github.com/PyTables/PyTables/archive/v%{version}.tar.gz#/python-tables-%{version}.tar.gz
 
@@ -121,6 +121,9 @@ PYTHONPATH=%{buildroot}%{python3_sitearch} %{__python3} bench/check_all.py
 %doc examples/
 
 %changelog
+* Mon Nov 07 2016 Than Ngo <than@redhat.com> - 3.3.0-2
+- rebuild against new blosc due to big endien issue on s390x/ppc64
+
 * Thu Sep 15 2016 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 3.3.0-1
 - Update to latest upstream version (#1352621)
 
