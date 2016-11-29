@@ -25,11 +25,6 @@ BuildRequires:  python-numexpr >= 2.4
 BuildRequires:  blosc-devel >= 1.5.2
 BuildRequires:  python2-devel
 BuildRequires:  python2-six
-BuildRequires:  python%{python3_pkgversion}-devel
-BuildRequires:  python%{python3_pkgversion}-Cython >= 0.13
-BuildRequires:  python%{python3_pkgversion}-numpy
-BuildRequires:  python%{python3_pkgversion}-numexpr >= 2.4
-BuildRequires:  python%{python3_pkgversion}-six
 
 %description
 PyTables is a package for managing hierarchical datasets and designed
@@ -48,20 +43,6 @@ PyTables is a package for managing hierarchical datasets and designed
 to efficiently and easily cope with extremely large amounts of data.
 
 This is the version for Python 2.
-
-%package -n python%{python3_pkgversion}-tables
-Summary:        %{summary}
-
-Requires:       python%{python3_pkgversion}-numpy
-Requires:       python%{python3_pkgversion}-six
-Requires:       python%{python3_pkgversion}-numexpr >= 2.4
-%{?python_provide:%python_provide python%{python3_pkgversion}-tables}
-
-%description -n python%{python3_pkgversion}-tables
-PyTables is a package for managing hierarchical datasets and designed
-to efficiently and easily cope with extremely large amounts of data.
-
-This is the version for Python 3.
 
 %package        doc
 Group:          Development/Languages
@@ -82,37 +63,25 @@ find c-blosc -mindepth 1 -maxdepth 1 -name hdf5 -prune -o -exec rm -r {} +
 
 %build
 %py2_build
-%py3_build
 
 %install
 chmod -x examples/check_examples.sh
 sed -i 's|bin/env |bin/|' utils/*
 
 %py2_install
-%py3_install
 
 %check
 export LANG=en_US.UTF-8
 PYTHONPATH=%{buildroot}%{python2_sitearch} %{__python2} bench/check_all.py
 
-# OOM during tests on s390
-%ifnarch s390
-PYTHONPATH=%{buildroot}%{python3_sitearch} %{__python3} bench/check_all.py
-%endif
-
 %files -n python2-tables
-%license LICENSE.txt LICENSES
-%{python2_sitearch}/tables
-%{python2_sitearch}/tables-%{version}*.egg-info
-
-%files -n python%{python3_pkgversion}-tables
 %license LICENSE.txt LICENSES
 %{_bindir}/ptdump
 %{_bindir}/ptrepack
 %{_bindir}/pt2to3
 %{_bindir}/pttree
-%{python3_sitearch}/tables
-%{python3_sitearch}/tables-%{version}*.egg-info
+%{python2_sitearch}/tables
+%{python2_sitearch}/tables-%{version}*.egg-info
 
 %files doc
 %license LICENSE.txt LICENSES
